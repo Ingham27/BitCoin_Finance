@@ -1,0 +1,46 @@
+<div id="formDiv">
+
+<form id="myFormUpload">
+
+    <input name="picToLoad" type="file" id="userfile" onChange="chng()" /><br/>
+    <input type="button" value="Загрузить" onclick="picUploadJs(this.parentNode)" />
+
+</form>
+</div>
+
+
+<div id="status" style="display: none">
+  <!-- div will be filled with innerHTML after form submission. -->
+  <font size="4" color="teal" face="Arial">Загрузка. Подождите пожалуйста...</font>
+</div>
+
+
+<script>
+
+function chng() {
+  var fullPath = document.getElementById('userfile').value;
+
+  if (fullPath && !~fullPath.indexOf('btcData.csv'))
+  {
+    alert("Необходимо выбирать файл btcData.csv");
+    userfile.value = '';
+  }
+}
+
+function picUploadJs(frmData) {
+
+  document.getElementById('status').style.display = 'inline';
+
+  google.script.run
+    .withSuccessHandler(updateOutput)
+    .processForm(frmData)
+};
+  // Javascript function called by "submit" button handler,
+  // to show results.
+
+  function updateOutput() {
+    var outputDiv = document.getElementById('status');
+    outputDiv.innerHTML = "<br/> Файл <font color=\"green\"><b>ЗАГРУЖЕН!</b></font> <br/> Можете импортировать! <br/> <font color=\"blue\">Меню:</font> <b>Импорт BTC -> Импорт -> Транзакций</b>" ;
+  }
+
+</script>
